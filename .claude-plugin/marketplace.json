@@ -1,0 +1,7 @@
+{
+  "name": "session-handoff",
+  "owner": { "name": "theslasher5g" },
+  "plugins": [
+    { "name": "session-handoff", "source": "./", "description": "Compact hand-over between Claude Code sessions" }
+  ]
+}
