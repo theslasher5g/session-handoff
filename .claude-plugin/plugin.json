@@ -1,6 +1,6 @@
 {
   "name": "session-handoff",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Saves a compact 'where we left off' note when a Claude Code session ends and hands it to the next session on the same branch – no model call, ~400 tokens.",
   "author": { "name": "theslasher5g" },
   "license": "MIT",

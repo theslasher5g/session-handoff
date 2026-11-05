@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // CLI:  handoff.mjs show | note "<text>" | clear | path
 import fs from 'node:fs';
-import { branchOf, readHandoff, writeHandoff, fileFor, notesOf, digest, render, parseMeta } from './lib.mjs';
+import { branchOf, rootOf, readHandoff, writeHandoff, fileFor, notesOf, digest, render, parseMeta } from './lib.mjs';
 
-const cwd = process.cwd(), branch = branchOf(cwd);
+const cwd = rootOf(process.cwd()), branch = branchOf(cwd);
 const [cmd, ...rest] = process.argv.slice(2);
 if (cmd === 'show') {
   const md = readHandoff(cwd, branch);

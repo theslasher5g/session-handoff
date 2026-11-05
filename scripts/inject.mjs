@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 // SessionStart hook: give the new session the note saved by the previous one (same branch, fresh enough).
-import { readStdinJson, readHandoff, parseMeta, branchOf, git, estTokens } from './lib.mjs';
+import { readStdinJson, readHandoff, parseMeta, branchOf, rootOf, git, estTokens } from './lib.mjs';
 
 const TTL_DAYS = Number(process.env.HANDOFF_TTL_DAYS) || 3;
 const MAX_TOKENS = Number(process.env.HANDOFF_MAX_TOKENS) || 500;
 
 const ev = await readStdinJson();
 if (process.env.HANDOFF_DISABLE === '1') process.exit(0);
-const cwd = ev.cwd || process.cwd();
+const cwd = rootOf(ev.cwd || process.cwd());
 const md = readHandoff(cwd, branchOf(cwd));
 const meta = parseMeta(md);
 if (!md || !meta) process.exit(0);

@@ -10,6 +10,8 @@ export function git(cwd, args) {
   const r = spawnSync('git', args, { cwd, encoding: 'utf8', timeout: 3000 });
   return r.status === 0 ? r.stdout.trim() : '';
 }
+/** Hooks may run with another cwd (subagents, worktrees, scratch dirs): always resolve git state from the project root. */
+export const rootOf = (cwd) => process.env.CLAUDE_PROJECT_DIR || git(cwd, ['rev-parse', '--show-toplevel']) || cwd;
 export const branchOf = (cwd) => git(cwd, ['rev-parse', '--abbrev-ref', 'HEAD']) || 'no-git';
 export const slug = (s) => String(s).replace(/[^\w.-]+/g, '_').slice(0, 80) || 'default';
 

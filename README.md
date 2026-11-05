@@ -68,6 +68,10 @@ CLI: `node scripts/handoff.mjs show | note "<text>" | clear | path`
 - `Stop` runs after every turn (tens of milliseconds: it reads the transcript tail and calls `git` three times).
 - One note per branch; the next session that does real work overwrites it.
 
+## Changelog
+- **0.1.1** – git state (branch, status, commits) is resolved from the project root (`CLAUDE_PROJECT_DIR`), not from the hook's cwd. Found in a real two-day session where a hook ran outside the repo and wrote a stray `no-git.md`.
+- **0.1.0** – first release.
+
 ## Install
 
 ```

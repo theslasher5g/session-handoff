@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 // Stop / PreCompact / SessionEnd hook: write the hand-over note for the current branch. No model call, never blocks.
-import { readStdinJson, readTranscript, digest, render, readHandoff, writeHandoff, notesOf, parseMeta, branchOf } from './lib.mjs';
+import { readStdinJson, readTranscript, digest, render, readHandoff, writeHandoff, notesOf, parseMeta, branchOf, rootOf } from './lib.mjs';
 
 const ev = await readStdinJson();
 try {
-  const cwd = ev.cwd || process.cwd();
+  const cwd = rootOf(ev.cwd || process.cwd());
   if (process.env.HANDOFF_DISABLE === '1') process.exit(0);
   const branch = branchOf(cwd);
   const prev = readHandoff(cwd, branch);

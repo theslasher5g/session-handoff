@@ -132,3 +132,15 @@ test('an error that was followed by a success of the same command is not reporte
   assert.doesNotMatch(md, /Last failing command/);
   assert.match(md, /## Commits this session\n[0-9a-f]+ Fix the build/);
 });
+
+test('git state is resolved from the project root, not from the hook cwd (subagent in another dir => no "no-git" note)', () => {
+  const { r } = repo();
+  const elsewhere = fs.mkdtempSync(path.join(os.tmpdir(), 'sh-elsewhere-'));
+  const t = transcript(r);
+  const e = { CLAUDE_PROJECT_DIR: r };
+  run('save.mjs', elsewhere, { hook_event_name: 'Stop', session_id: 'sub', transcript_path: t, cwd: elsewhere }, e);
+  assert.ok(fs.existsSync(path.join(r, '.claude/handoff/main.md')), 'note belongs to the repo branch');
+  assert.ok(!fs.existsSync(path.join(r, '.claude/handoff/no-git.md')) && !fs.existsSync(path.join(elsewhere, '.claude/handoff')));
+  const out = run('inject.mjs', elsewhere, { cwd: elsewhere }, e);
+  assert.match(JSON.parse(out.stdout).hookSpecificOutput.additionalContext, /branch main/);
+});
